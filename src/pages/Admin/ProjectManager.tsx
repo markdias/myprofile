@@ -68,11 +68,11 @@ const ProjectManager = () => {
                 imageUrl = await uploadImage(imageFile.originFileObj, 'projects');
             }
 
-            const projectData: Partial<Project> = {
+            const projectData = {
                 ...values,
                 imageUrl,
                 technologies: values.technologies?.split(',').map((t: string) => t.trim()) || [],
-            };
+            } as Omit<Project, 'id' | 'createdAt' | 'updatedAt'>;
 
             if (editingProject) {
                 await updateProject(editingProject.id, projectData);

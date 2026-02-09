@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Card, Space, message, Upload } from 'antd';
-import { PlusOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { useState, useEffect } from 'react';
+import { Form, Input, Button, Card, Space, message } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getSiteContent, updateSiteContent } from '../../firebase/firestore';
 import { SiteSettings } from '../../types';
 import './SettingsEditor.css';

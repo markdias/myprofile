@@ -10,13 +10,13 @@ const CTAButton = ({ config }: CTAButtonProps) => {
         config.variant === 'secondary' ? 'default' :
             'default';
 
-    const size = config.size || 'large';
+    const size = config.size === 'medium' ? 'middle' : (config.size || 'large');
 
     return (
         <div style={{ textAlign: 'center', margin: 'var(--spacing-lg) 0' }}>
             <Button
                 type={buttonType}
-                size={size}
+                size={size as 'large' | 'middle' | 'small'}
                 href={config.url}
                 target={config.openInNewTab ? '_blank' : '_self'}
                 rel={config.openInNewTab ? 'noopener noreferrer' : undefined}

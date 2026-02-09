@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
 import {
-    List,
     Button,
     Space,
     Modal,
     Form,
-    Input,
-    Switch,
     message,
     Popconfirm,
     Card
@@ -167,7 +164,7 @@ const SectionBuilder = () => {
                     ...sectionData,
                     order: sections.length,
                     visible: true,
-                });
+                } as Omit<Section, 'id' | 'createdAt' | 'updatedAt'>);
                 message.success('Section created successfully');
             }
             setModalVisible(false);
