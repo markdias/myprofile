@@ -1,0 +1,96 @@
+.admin-sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #001529;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 24px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h2 {
+    color: #fff;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.sidebar-menu {
+    flex: 1;
+    border-right: none;
+    background: transparent;
+    padding: 16px 0;
+}
+
+.sidebar-menu .ant-menu-item {
+    margin: 4px 8px;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.sidebar-menu .ant-menu-item:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-menu .ant-menu-item-selected {
+    background: #1890ff !important;
+    color: #fff !important;
+}
+
+.sidebar-menu .ant-menu-item-selected::after {
+    display: none;
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 0;
+}
+
+.sidebar-footer .ant-menu {
+    background: transparent;
+    border-right: none;
+}
+
+.sidebar-footer .ant-menu-item {
+    margin: 4px 8px;
+    border-radius: 6px;
+}
+
+.sidebar-footer .ant-menu-item-danger {
+    color: #ff4d4f;
+}
+
+.sidebar-footer .ant-menu-item-danger:hover {
+    background: rgba(255, 77, 79, 0.1);
+    color: #ff7875;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: 200px;
+    }
+
+    .sidebar-header h2 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .admin-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,97 @@
+.project-modal .ant-modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modal-content {
+    padding: 0;
+}
+
+.project-carousel,
+.single-image-wrapper {
+    width: 100%;
+    background: var(--color-bg-tertiary);
+}
+
+.carousel-image-wrapper,
+.single-image-wrapper {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.carousel-image-wrapper img,
+.single-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-details {
+    padding: var(--spacing-2xl);
+}
+
+.modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-primary);
+}
+
+.project-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-lg);
+}
+
+.tech-tag {
+    font-size: 0.875rem;
+    padding: 4px 12px;
+}
+
+.project-description-full {
+    margin-bottom: var(--spacing-xl);
+}
+
+.project-description-full p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.long-description {
+    color: var(--color-text-light);
+}
+
+.project-actions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+
+    .carousel-image-wrapper,
+    .single-image-wrapper {
+        height: 250px;
+    }
+
+    .project-details {
+        padding: var(--spacing-lg);
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .project-actions {
+        width: 100%;
+    }
+
+    .project-actions button {
+        flex: 1;
+    }
+}

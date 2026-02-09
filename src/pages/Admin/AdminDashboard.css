@@ -1,0 +1,59 @@
+.admin-dashboard {
+    min-height: 100vh;
+    background: #f0f2f5;
+}
+
+.admin-main-layout {
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+.admin-content {
+    padding: 24px;
+    min-height: calc(100vh - 48px);
+}
+
+.admin-content-inner {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    min-height: calc(100vh - 96px);
+}
+
+.editor-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.editor-placeholder h2 {
+    font-size: 24px;
+    color: #1a365d;
+    margin-bottom: 12px;
+}
+
+.editor-placeholder p {
+    font-size: 16px;
+    color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-main-layout {
+        margin-left: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-main-layout {
+        margin-left: 0;
+    }
+
+    .admin-content {
+        padding: 16px;
+    }
+
+    .admin-content-inner {
+        padding: 16px;
+    }
+}

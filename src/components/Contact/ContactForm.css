@@ -1,0 +1,44 @@
+.contact-section {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg-secondary);
+}
+
+.contact-form-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--color-bg-primary);
+    padding: var(--spacing-2xl);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+}
+
+.contact-form {
+    margin-top: var(--spacing-lg);
+}
+
+.contact-form .ant-form-item-label>label {
+    font-weight: 500;
+    color: var(--color-text-primary);
+}
+
+.submit-btn {
+    height: 50px;
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-top: var(--spacing-md);
+    background: var(--gradient-primary);
+    border: none;
+    box-shadow: 0 4px 15px rgba(26, 54, 93, 0.3);
+    transition: all var(--transition-base);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 54, 93, 0.4);
+}
+
+@media (max-width: 768px) {
+    .contact-form-wrapper {
+        padding: var(--spacing-lg);
+    }
+}

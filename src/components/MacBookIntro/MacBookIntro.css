@@ -1,0 +1,919 @@
+/* ============================================
+   3D MacBook Intro - Complete Styling
+   ============================================ */
+
+/* Space Grey Color Palette */
+:root {
+    --mb-grey-dark: #1d1d1f;
+    --mb-grey-mid: #86868b;
+    --mb-grey-light: #a1a1a6;
+    --mb-grey-body: #333336;
+    --mb-grey-keys: #2a2a2c;
+    --mb-screen-bezel: #0a0a0a;
+    --mb-screen-bg: #1a1a2e;
+    --mb-accent-gold: #d4af37;
+}
+
+/* ============================================
+   Container & Background
+   ============================================ */
+.macbook-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    overflow: hidden;
+    transition: opacity 0.5s ease;
+}
+
+.macbook-intro.zooming {
+    /* Fade out the background, but don't scale */
+    animation: fadeOut 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Zoom focused on screen - shift up to center screen in view */
+.macbook-intro.zooming .macbook-scene {
+    animation: zoomScreen 1.5s ease-in-out forwards;
+}
+
+@keyframes zoomScreen {
+    0% {
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        /* Scale up more and shift to focus on screen */
+        transform: scale(5) translateY(50%);
+    }
+}
+
+.intro-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.desk-surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../assets/office_desk.png') no-repeat center center;
+    background-size: cover;
+}
+
+.ambient-light {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(ellipse at center,
+            rgba(212, 175, 55, 0.08) 0%,
+            transparent 50%);
+    pointer-events: none;
+}
+
+/* ============================================
+   Skip Button & Hints
+   ============================================ */
+.skip-button {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.skip-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.skip-key {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: monospace;
+}
+
+.hover-hint {
+    position: absolute;
+    bottom: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: hintPulse 2s ease-in-out infinite;
+}
+
+.hint-icon {
+    font-size: 24px;
+    animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* ============================================
+   3D Scene Setup
+   ============================================ */
+.macbook-scene {
+    perspective: 2000px;
+    perspective-origin: 50% 50%;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.macbook {
+    position: relative;
+    transform-style: preserve-3d;
+    /* Tilt the whole laptop and shift closer to the front of the desk */
+    transform: rotateX(80deg) translateY(500px);
+    transition: transform 0.5s ease;
+}
+
+.macbook.hovered {
+    /* Keep laptop still on hover - only lid opens */
+    transform: rotateX(80deg) translateY(500px);
+}
+
+/* ============================================
+   Lid / Screen Assembly
+   ============================================ */
+.macbook-lid {
+    position: absolute;
+    /* Match EXACT base dimensions - larger size */
+    width: 720px;
+    height: 480px;
+    transform-style: preserve-3d;
+    /* Start at EXACT same position as base */
+    top: 0;
+    left: 0;
+    /* Lid sits ON TOP of keyboard - higher z-index */
+    z-index: 10;
+    /* Hinge is at the BACK (top edge of lid when closed) */
+    transform-origin: center top;
+    /* Start FLAT, lifted to cover keyboard completely */
+    transform: translateZ(20px) rotateX(0deg);
+    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.macbook.open .macbook-lid {
+    /* When opening: no Z lift (connects at hinge), rotate up and back */
+    transform: rotateX(110deg);
+}
+
+/* Back of the lid (aluminum) */
+.lid-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            #4a4a4e 0%,
+            #3a3a3e 30%,
+            #2a2a2e 60%,
+            #3a3a3e 100%);
+    border-radius: 16px 16px 0 0;
+    transform: translateZ(-8px);
+    backface-visibility: hidden;
+    box-shadow:
+        inset 0 0 30px rgba(255, 255, 255, 0.05),
+        0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.apple-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 60px;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0.9;
+}
+
+.logo-svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Front of the lid (screen side - faces keyboard when closed) */
+.lid-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* Flip so screen faces DOWN when closed (toward keyboard) */
+    transform: rotateX(180deg);
+    backface-visibility: hidden;
+}
+
+.screen-bezel {
+    width: 100%;
+    height: 100%;
+    background: var(--mb-screen-bezel);
+    border-radius: 16px 16px 0 0;
+    padding: 15px 15px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        inset 0 0 0 2px rgba(60, 60, 65, 0.5),
+        inset 0 0 50px rgba(0, 0, 0, 0.8);
+}
+
+.notch {
+    width: 150px;
+    height: 30px;
+    background: var(--mb-screen-bezel);
+    border-radius: 0 0 15px 15px;
+    margin: -15px auto 10px;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.camera-dot {
+    width: 6px;
+    height: 6px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 1px #2a2a2a,
+        inset 0 0 2px rgba(0, 100, 200, 0.5);
+}
+
+.screen-display {
+    flex: 1;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Screen states */
+.screen-off {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a0a;
+    transition: opacity 0.5s ease;
+}
+
+.screen-off.hidden {
+    opacity: 0;
+}
+
+.screen-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0f2744 0%, #1a365d 50%, #2c5282 100%);
+    animation: screenFadeIn 0.5s ease forwards;
+}
+
+@keyframes screenFadeIn {
+    from {
+        opacity: 0;
+        filter: brightness(0);
+    }
+
+    to {
+        opacity: 1;
+        filter: brightness(1);
+    }
+}
+
+.power-on-glow {
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center,
+            rgba(255, 255, 255, 0.15) 0%,
+            transparent 70%);
+    animation: glowPulse 1s ease-in-out;
+}
+
+@keyframes glowPulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+}
+
+/* ============================================
+   Browser Window
+   ============================================ */
+.browser-window {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: browserSlideIn 0.5s ease forwards;
+}
+
+@keyframes browserSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.browser-toolbar {
+    height: 36px;
+    background: linear-gradient(180deg, #3a3a3c, #2d2d2f);
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 12px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.traffic-lights {
+    display: flex;
+    gap: 6px;
+}
+
+.light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.light.red {
+    background: #ff5f57;
+}
+
+.light.yellow {
+    background: #febc2e;
+}
+
+.light.green {
+    background: #28c840;
+}
+
+.address-bar {
+    flex: 1;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.url-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 11px;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+}
+
+.cursor-blink {
+    animation: blink 1s step-end infinite;
+    color: var(--mb-accent-gold);
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.browser-actions {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.action-icon {
+    font-size: 16px;
+}
+
+.browser-content {
+    flex: 1;
+    background: linear-gradient(135deg, #0f2744 0%, #1a365d 50%, #2c5282 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Loading skeleton */
+.loading-skeleton {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 80%;
+}
+
+.skeleton-line {
+    height: 16px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.05) 25%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(255, 255, 255, 0.05) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+.skeleton-line.wide {
+    width: 90%;
+    height: 24px;
+}
+
+.skeleton-line.medium {
+    width: 60%;
+}
+
+.skeleton-button {
+    width: 100px;
+    height: 28px;
+    margin-top: 8px;
+    background: linear-gradient(90deg,
+            rgba(212, 175, 55, 0.2) 25%,
+            rgba(212, 175, 55, 0.3) 50%,
+            rgba(212, 175, 55, 0.2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 6px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Mini Hero (inside browser) */
+.mini-hero {
+    text-align: center;
+    color: white;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-hero-bg {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(44, 82, 130, 0.1) 0%, transparent 50%);
+    z-index: -1;
+}
+
+.mini-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.mini-subtitle {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+
+.mini-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #d4af37 0%, #b8962a 100%);
+    color: #1a1a1a;
+    padding: 6px 14px;
+    border-radius: 5px;
+    font-size: 9px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+/* Content animations */
+.animate-in {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: contentFadeIn 0.5s ease forwards;
+}
+
+.animate-in.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animate-in.delay-2 {
+    animation-delay: 0.4s;
+}
+
+@keyframes contentFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Hinge
+   ============================================ */
+.macbook-hinge {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 520px;
+    height: 10px;
+    background: linear-gradient(180deg,
+            #3a3a3e 0%,
+            #2a2a2e 50%,
+            #1d1d1f 100%);
+    border-radius: 4px;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   Base / Keyboard Assembly
+   ============================================ */
+.macbook-base {
+    position: relative;
+    width: 720px;
+    height: 480px;
+    transform-style: preserve-3d;
+    /* Base sits flat, in front */
+    transform: translateZ(0);
+}
+
+.base-top {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg,
+            #4a4a4e 0%,
+            #3a3a3e 20%,
+            #2d2d30 100%);
+    border-radius: 0 0 16px 16px;
+    padding: 20px 35px 35px;
+    box-sizing: border-box;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Speaker Grilles */
+.speaker-grille {
+    position: absolute;
+    top: 8px;
+    width: 120px;
+    height: 6px;
+    background: repeating-linear-gradient(90deg,
+            #1a1a1a 0px,
+            #1a1a1a 1px,
+            transparent 1px,
+            transparent 3px);
+    border-radius: 3px;
+}
+
+.speaker-grille.left {
+    left: 25px;
+}
+
+.speaker-grille.right {
+    right: 25px;
+}
+
+/* ============================================
+   Keyboard
+   ============================================ */
+.keyboard-area {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.key-row {
+    display: flex;
+    gap: 4px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.key {
+    height: 32px;
+    min-width: 37px;
+    padding: 0 10px;
+    background: linear-gradient(180deg,
+            #2d2d2f 0%,
+            #1d1d1f 100%);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, 0.5),
+        0 2px 3px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.function-row {
+    margin-bottom: 6px;
+}
+
+.function-row .key {
+    height: 25px;
+    min-width: 35px;
+    font-size: 9px;
+}
+
+.key.esc {
+    min-width: 50px;
+}
+
+.key.fn-key {
+    min-width: 35px;
+    padding: 0 5px;
+}
+
+.key.power {
+    min-width: 50px;
+}
+
+.key.backspace {
+    min-width: 68px;
+}
+
+.key.tab {
+    min-width: 62px;
+}
+
+.key.caps {
+    min-width: 75px;
+}
+
+.key.enter {
+    min-width: 80px;
+}
+
+.key.shift-left {
+    min-width: 100px;
+}
+
+.key.shift-right {
+    min-width: 100px;
+}
+
+.key.fn,
+.key.ctrl,
+.key.opt {
+    min-width: 43px;
+}
+
+.key.cmd {
+    min-width: 52px;
+}
+
+.key.spacebar {
+    min-width: 250px;
+}
+
+.key.arrow-left,
+.key.arrow-right {
+    min-width: 28px;
+}
+
+.key-group.arrows-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.key-group.arrows-vertical .key {
+    height: 15px;
+    min-width: 28px;
+    font-size: 7px;
+}
+
+/* ============================================
+   Trackpad
+   ============================================ */
+.trackpad {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 140px;
+    background: linear-gradient(180deg,
+            #3a3a3e 0%,
+            #2d2d30 100%);
+    border-radius: 8px;
+    padding: 3px;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.trackpad-surface {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.04) 0%,
+            rgba(255, 255, 255, 0.02) 100%);
+    border-radius: 6px;
+}
+
+/* Base edges (3D depth) */
+.base-front {
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(180deg, #2a2a2e, #1d1d1f);
+    transform: rotateX(-90deg);
+    transform-origin: top;
+    border-radius: 0 0 4px 4px;
+}
+
+.base-left {
+    position: absolute;
+    left: -8px;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(90deg, #1d1d1f, #2a2a2e);
+    transform: rotateY(90deg);
+    transform-origin: right;
+    border-radius: 4px 0 0 4px;
+}
+
+.base-right {
+    position: absolute;
+    right: -8px;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    background: linear-gradient(90deg, #2a2a2e, #1d1d1f);
+    transform: rotateY(-90deg);
+    transform-origin: left;
+    border-radius: 0 4px 4px 0;
+}
+
+.base-back {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: #1d1d1f;
+    transform: rotateX(90deg);
+    transform-origin: bottom;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 768px) {
+    .macbook-scene {
+        transform: scale(0.55);
+    }
+
+    .hover-hint {
+        display: none;
+    }
+
+    .skip-button {
+        bottom: 20px;
+        right: 20px;
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .macbook-scene {
+        transform: scale(0.4);
+    }
+}
+
+/* ============================================
+   Idle Animation (subtle breathing)
+   ============================================ */
+.macbook:not(.open) .lid-back .apple-logo {
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow {
+
+    0%,
+    100% {
+        opacity: 0.9;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.1));
+    }
+
+    50% {
+        opacity: 1;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+    }
+}
