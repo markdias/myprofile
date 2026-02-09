@@ -129,7 +129,7 @@ const HeroEditor = () => {
                     <Form.List name="stats">
                         {(fields, { add, remove }) => (
                             <>
-                                {fields.map((field, index) => (
+                                {fields.map((field) => (
                                     <div key={field.key} className="stat-item">
                                         <div className="stat-fields">
                                             <Form.Item

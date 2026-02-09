@@ -1,5 +1,5 @@
-import { Form, Input, Select, InputNumber, Switch, Button, Space, Upload, Card } from 'antd';
-import { PlusOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Select, InputNumber, Switch, Button, Space, Card } from 'antd';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ComponentConfig, ComponentType } from '../../types';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';

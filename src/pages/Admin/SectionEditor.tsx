@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Form, Input, Button, Space, Card, Select, message } from 'antd';
+import { Form, Input, Button, Space, Card, message } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Section, ComponentConfig, ComponentType } from '../../types';
 import ComponentConfigurator from './ComponentConfigurator';
