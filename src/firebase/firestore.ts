@@ -10,7 +10,8 @@ import {
     orderBy,
     where,
     Timestamp,
-    writeBatch
+    writeBatch,
+    setDoc
 } from 'firebase/firestore';
 import { db } from './config';
 import { Project, Section, ContactMessage } from '../types';
@@ -353,7 +354,7 @@ export const updateSiteContent = async (
             await updateDoc(docRef, sanitizedData);
         } else {
             // Create new document with the section ID
-            await updateDoc(docRef, {
+            await setDoc(docRef, {
                 ...sanitizedData,
                 createdAt: Timestamp.now(),
                 updatedAt: Timestamp.now()

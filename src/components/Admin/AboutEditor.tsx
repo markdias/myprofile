@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Input, Button, Card, Space, message, Slider } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getSiteContent, updateSiteContent } from '../../firebase/firestore';
@@ -87,7 +87,7 @@ const AboutEditor = () => {
                     <Form.List name="skills">
                         {(fields, { add, remove }) => (
                             <>
-                                {fields.map((field, index) => (
+                                {fields.map((field) => (
                                     <div key={field.key} className="skill-item">
                                         <div className="skill-fields">
                                             <Form.Item
