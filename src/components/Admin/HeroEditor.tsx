@@ -9,15 +9,14 @@ const { TextArea } = Input;
 
 const HeroEditor = () => {
     const [form] = Form.useForm();
-    const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
+
 
     useEffect(() => {
         loadContent();
     }, []);
 
     const loadContent = async () => {
-        setLoading(true);
         try {
             const content = await getSiteContent<HeroContent>('hero');
             if (content) {
@@ -26,7 +25,7 @@ const HeroEditor = () => {
         } catch (error) {
             message.error('Failed to load hero content');
         } finally {
-            setLoading(false);
+            // Loading finished
         }
     };
 
